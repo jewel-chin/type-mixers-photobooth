@@ -18,10 +18,14 @@ export const generateQrForStrip = async ({ stripRef, setQrCode }: Props) => {
     scale: 4,
   });
 
-  const blob = await new Promise((resolve) => {
+  const blob = await new Promise<Blob | null>((resolve) => {
     canvas.toBlob((b) => resolve(b), "image/png");
   });
 
+  if (!blob) {
+    console.error("Failed to generate blob");
+    return;
+  }
   // 2. Upload to Cloudflare Worker
   try {
     const uploadRes = await fetch(`${WORKER_URL}/upload`, {
