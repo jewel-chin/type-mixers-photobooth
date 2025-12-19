@@ -14,7 +14,7 @@ const videoConstraints = {
   facingMode: "user",
 };
 
-const MAX_CAPTURES = 1;
+const MAX_CAPTURES = 4;
 const COUNTER = 3;
 const countdownImages: { [key: number]: string } = {
   3: countDown_3,
@@ -65,25 +65,16 @@ const PhotoBooth: React.FC = () => {
         }
         playShutter();
         takePhoto();
-        // small pause before next countdown (optional)
-        // eslint-disable-next-line no-await-in-loop
         await new Promise((res) => setTimeout(res, 500));
       }
-
-      // finished sequence
-      // setIsStarted(false);
-      // generateQrForStrip({ stripRef, setQrCode });
-
-      // setCurrentCount(COUNTER);
     };
 
     runSequence();
   };
 
   const generateQrCode = async () => {
-    console.log("Generating QR Code...");
     setIsGeneratingQr(true);
-    // await generateQrForStrip({ stripRef, setQrCode });
+    await generateQrForStrip({ stripRef, setQrCode });
 
     // tee hee fake timer
     setTimeout(() => {
@@ -117,10 +108,16 @@ const PhotoBooth: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen min-w-screen p-4 flex flex-row items-center justify-between">
-      <div className="flex flex-row w-full h-full">
+    <div className="min-h-screen w-full p-4 flex flex-col items-center justify-center gap-8 overflow-y-auto">
+      <div
+        className={`flex w-full h-full items-center justify-center gap-8 ${
+          // 1. if strip is shown (!showWebcam), use flex-row even on mobile
+          // 2. Otherwise (initial/taking photos), use flex-col on mobile and flex-row on desktop (lg)
+          !showWebcam ? "flex-row" : "flex-col lg:flex-row"
+        }`}
+      >
         {/* LEFT – Webcam (50%) */}
-        <div className="w-1/2 flex justify-center items-center">
+        <div className="lg:w-1/2 w-full flex justify-center items-center">
           {showWebcam ? (
             <Webcam
               audio={false}
@@ -134,7 +131,7 @@ const PhotoBooth: React.FC = () => {
             // photo strip configurator
             <div className="flex flex-col items-center gap-4">
               <span>Customize Your Photo Strip:</span>
-              <div className="flex flex-row items-start gap-4">
+              <div className="flex lg:flex-row items-start gap-4 flex-col">
                 <div className="flex flex-row gap-2">
                   <Sketch
                     color={photoStripBgColor}
@@ -242,7 +239,7 @@ const PhotoBooth: React.FC = () => {
         </div>
 
         {/* RIGHT – Start screen (50%) */}
-        <div className="w-1/2 flex items-center justify-center">
+        <div className="lg:w-1/2 w-full mt-10 lg:mt-0 flex items-center justify-center">
           {isInitialScreen && (
             <div className="text-center flex flex-col items-center">
               <img
@@ -265,8 +262,7 @@ const PhotoBooth: React.FC = () => {
               className="custom-photobooth-strip flex flex-col items-center"
               style={{
                 backgroundColor: photoStripBgColor,
-                width: "fit-content", // Keeps the strip tight to the images
-                maxWidth: "24vw", // Ensures the strip itself has a ceiling width
+                maxWidth: "24vw",
               }}
             >
               {capturedImages.map((imgSrc, index) => (
@@ -313,16 +309,14 @@ const PhotoBooth: React.FC = () => {
           )}
         </div>
       </div>
-
       {!showWebcam && (
         <button
-          className="fixed bottom-0 left-0 w-full p-1 bg-dark-brown text-cream text-center text-xs italic"
+          className="fixed bottom-0 left-0 m-4 mb-4 back-button"
           onClick={() => restartPhotobooth()}
         >
           ← Go Back
         </button>
       )}
-
       <div className="fixed left-4 bottom-4 z-50">
         {isStarted && currentCount > 0 && (
           <div className="fixed inset-0 flex items-center justify-center pointer-events-none">

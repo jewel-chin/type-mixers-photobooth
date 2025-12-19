@@ -38,3 +38,7 @@ body {
 .unselected-button {
   @apply text-sm bg-gray-200 text-dark-brown py-1 px-4 rounded hover:bg-gray-300 transition-colors duration-300;
 }
+
+.back-button {
+  @apply text-sm bg-red-900 text-cream py-1 px-4 rounded hover:bg-red-800 transition-colors duration-300;
+}
