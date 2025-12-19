@@ -1,7 +1,7 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Webcam from "react-webcam";
 import TypeMixersLogo from "../assets/type_logo.png";
-import html2canvas from "html2canvas";
+import { generateQrForStrip } from "../helpers/helpers";
 
 const videoConstraints = {
   width: 1280,
@@ -18,6 +18,7 @@ const PhotoBooth: React.FC = () => {
   const [capturedImages, setCapturedImages] = useState<string[]>([]);
   const [isStarted, setIsStarted] = useState(false);
   const [currentCount, setCurrentCount] = useState(COUNTER);
+  const [qrCode, setQrCode] = useState<string | null>(null);
 
   //   const capture = useCallback(() => {
   //     if (webcamRef.current) {
@@ -39,15 +40,12 @@ const PhotoBooth: React.FC = () => {
 
       for (let i = 0; i < MAX_CAPTURES; i++) {
         let count = COUNTER;
-        // show COUNTER, COUNTER-1, ... , 0 (one second each)
         while (count >= 0) {
           setCurrentCount(count);
-          // wait 1s
-          // eslint-disable-next-line no-await-in-loop
           await new Promise((res) => setTimeout(res, 1000));
           count -= 1;
         }
-        // capture after showing 0
+
         takePhoto();
         // small pause before next countdown (optional)
         // eslint-disable-next-line no-await-in-loop
@@ -56,6 +54,8 @@ const PhotoBooth: React.FC = () => {
 
       // finished sequence
       setIsStarted(false);
+      generateQrForStrip({ stripRef, setQrCode });
+
       setCurrentCount(COUNTER);
     };
 
@@ -65,34 +65,12 @@ const PhotoBooth: React.FC = () => {
   const download = async () => {
     if (!stripRef.current) return;
 
-    const canvas = await html2canvas(stripRef.current, {
-      backgroundColor: "#ffffff", // ensures white background
-      scale: 2, // higher quality
-      useCORS: true, // important if logo is an image import
-    });
-
-    const image = canvas.toDataURL("image/png");
-
-    const link = document.createElement("a");
-    link.href = image;
-    link.download = "photobooth-strip.png";
-    link.click();
+    generateQrForStrip({ stripRef, setQrCode });
     setCapturedImages([]);
     setCurrentCount(COUNTER);
     setIsStarted(false);
-    // const a = document.createElement("a");
-    // if (capturedImages.length > 0) {
-    //   a.href = capturedImages[capturedImages.length - 1];
-    //   a.download = `test.jpg`;
-    //   a.click();
-    // }
   };
-  // photos.forEach((photo, index) => {
-  // const a = document.createElement("a");
-  // a.href = photo;
-  // a.download = `photo_${index + 1}.jpg`;
-  // a.click();
-  // }};
+
   const isInitialScreen =
     !isStarted && currentCount === 3 && capturedImages.length === 0;
   return (
@@ -121,12 +99,6 @@ const PhotoBooth: React.FC = () => {
         )}
       </div>
 
-      {isStarted && currentCount > 0 && (
-        <div className="fixed left-4 bottom-4 z-50">
-          <div className="text-9xl">{currentCount}</div>
-        </div>
-      )}
-
       {capturedImages.length > 0 && (
         <div className="text-center flex flex-col items-center justify-center w-full">
           <div ref={stripRef} className="custom-photobooth-strip">
@@ -144,9 +116,27 @@ const PhotoBooth: React.FC = () => {
               className="w-30 py-4"
             />
           </div>
-          <button onClick={download}>Download</button>
         </div>
       )}
+
+      <div className="fixed left-4 bottom-4 z-50">
+        {isStarted && currentCount > 0 && (
+          <div className="text-9xl">{currentCount}</div>
+        )}
+
+        {qrCode && (
+          <div className="flex flex-col items-center justify-center">
+            <button className="text-xs" onClick={download}>
+              Scan to get your photo strip:
+            </button>
+            <img
+              src={qrCode}
+              alt="QR Code for Photo Booth Strip"
+              className="w-30"
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };
