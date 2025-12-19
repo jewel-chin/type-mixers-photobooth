@@ -11,11 +11,15 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
+    "@uiw/color-convert": "^2.9.2",
+    "@uiw/react-color-sketch": "^2.9.2",
+    "@uiw/react-color-wheel": "^2.9.2",
     "gh-pages": "^6.3.0",
     "html2canvas": "^1.4.1",
     "qrcode": "^1.5.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-pixels": "^0.5.9",
     "react-router-dom": "^7.11.0",
     "react-webcam": "^7.2.0",
     "tailwindcss": "^4.1.18"
@@ -25,6 +29,7 @@
     "@types/node": "^24.10.1",
     "@types/qrcode": "^1.5.6",
     "@types/react": "^19.2.5",
+    "@types/react-color": "^3.0.13",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
     "babel-plugin-react-compiler": "^1.0.0",

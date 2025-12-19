@@ -1,6 +1,8 @@
 import React from "react";
 import html2canvas from "html2canvas";
 import QRCode from "qrcode";
+import beepSound from "../assets/beep.wav";
+import shutterSound from "../assets/shutter.wav";
 
 const WORKER_URL = "https://photobooth.type-mixers.workers.dev";
 
@@ -8,6 +10,9 @@ type Props = {
   stripRef: React.RefObject<HTMLDivElement | null>;
   setQrCode: React.Dispatch<React.SetStateAction<string | null>>;
 };
+
+const beepAudio = new Audio(beepSound);
+const shutterAudio = new Audio(shutterSound);
 
 export const generateQrForStrip = async ({ stripRef, setQrCode }: Props) => {
   // 1. Convert div to image
@@ -64,3 +69,13 @@ export const generateQrForStrip = async ({ stripRef, setQrCode }: Props) => {
 // link.href = image;
 // link.download = "photobooth-strip.png";
 // link.click();
+
+export const playBeep = () => {
+  beepAudio.currentTime = 0;
+  beepAudio.play();
+};
+
+export const playShutter = () => {
+  shutterAudio.currentTime = 0;
+  shutterAudio.play();
+};
