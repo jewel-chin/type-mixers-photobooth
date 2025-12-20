@@ -42,3 +42,7 @@ body {
 .back-button {
   @apply text-sm bg-red-900 text-cream py-1 px-4 rounded hover:bg-red-800 transition-colors duration-300;
 }
+
+.download-button {
+  @apply rounded-lg border border-gray-200 p-1 cursor-pointer hover:bg-gray-200 transition-colors duration-300;
+}

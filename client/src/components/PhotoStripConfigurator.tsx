@@ -1,7 +1,11 @@
 import Sketch from "@uiw/react-color-sketch";
 import { filters, PRESET_COLORS } from "../constants/const";
+import downloadIcon from "../assets/download.png";
+import shareIcon from "../assets/share.png";
+import { handleShare, handleDownload } from "../helpers/helpers";
 
 type Props = {
+  stripRef: React.RefObject<HTMLDivElement | null>;
   photoStripBgColor: string;
   setPhotoStripBgColor: React.Dispatch<React.SetStateAction<string>>;
   setFilter: React.Dispatch<React.SetStateAction<keyof typeof filters>>;
@@ -18,6 +22,7 @@ type Props = {
 };
 
 export const PhotoStripConfigurator = ({
+  stripRef,
   photoStripBgColor,
   setPhotoStripBgColor,
   setFilter,
@@ -101,6 +106,22 @@ export const PhotoStripConfigurator = ({
           </div>
 
           <div className="flex flex-row items-center gap-2">
+            <button
+              onClick={() => handleDownload(stripRef)}
+              className="download-button"
+            >
+              <img
+                src={downloadIcon}
+                alt="download image"
+                className="w-5 h-5"
+              />
+            </button>
+            <button
+              onClick={() => handleShare(stripRef)}
+              className="download-button"
+            >
+              <img src={shareIcon} alt="share image" className="w-5 h-5" />
+            </button>
             <button onClick={() => generateQrCode()} className="base-button">
               Generate QR Code
             </button>

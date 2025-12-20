@@ -33,9 +33,7 @@ export const GetStarted = ({
           })
         }
       >
-        {/* The Heart Image */}
         <img src={heart} alt="heart" className="w-14 h-14 object-contain" />
-        {/* The Text Overlay - Added flex and centering */}
         <div className="absolute inset-0 flex items-center justify-center text-cream text-sm pb-1">
           Start
         </div>

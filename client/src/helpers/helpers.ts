@@ -59,15 +59,49 @@ export const generateQrForStrip = async ({ stripRef, setQrCode }: Props) => {
 };
 
 // for image download
-// const canvas = await html2canvas(stripRef.current, {
-//   backgroundColor: "#ffffff", // ensures white background
-//   scale: 2, // higher quality
-// });
-// const image = canvas.toDataURL("image/png");
-// const link = document.createElement("a");
-// link.href = image;
-// link.download = "photobooth-strip.png";
-// link.click();
+
+export const handleDownload = async (
+  stripRef: React.RefObject<HTMLDivElement | null>
+) => {
+  if (!stripRef.current) return;
+
+  const canvas = await html2canvas(stripRef.current, {
+    backgroundColor: "transparent",
+    scale: 4,
+  });
+  const image = canvas.toDataURL("image/png");
+  const link = document.createElement("a");
+  link.href = image;
+  link.download = "photobooth-strip.png";
+  link.click();
+};
+
+export const handleShare = async (
+  stripRef: React.RefObject<HTMLDivElement | null>
+) => {
+  if (!stripRef.current) return;
+
+  const canvas = await html2canvas(stripRef.current, {
+    backgroundColor: "transparent",
+    scale: 4,
+  });
+
+  const blob = await new Promise<Blob | null>((resolve) => {
+    canvas.toBlob((b) => resolve(b), "image/png");
+  });
+
+  if (!blob) {
+    return;
+  }
+
+  const file = new File([blob], "photostrip.png", { type: "image/png" });
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    await navigator.share({
+      files: [file],
+      title: "Photo Strip",
+    });
+  }
+};
 
 type startCaptureSequenceProps = {
   setIsStarted: React.Dispatch<React.SetStateAction<boolean>>;
@@ -109,6 +143,7 @@ export const startCaptureSequence = ({
 };
 export const playBeep = () => {
   beepAudio.currentTime = 0;
+  beepAudio.volume = 0.5;
   beepAudio.play();
 };
 

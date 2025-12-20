@@ -1,14 +1,13 @@
 import React, { useRef, useState } from "react";
 import Webcam from "react-webcam";
-import TypeMixersLogo from "../assets/type_logo.png";
 import countDown_3 from "../assets/countdown_3.png";
 import countDown_2 from "../assets/countdown_2.png";
 import countDown_1 from "../assets/countdown_1.png";
 import { generateQrForStrip } from "../helpers/helpers";
-import { PixelsImage } from "react-pixels";
 import { PhotoStripConfigurator } from "../components/PhotoStripConfigurator";
 import { filters, COUNT_STARTER, MAX_CAPTURES } from "../constants/const";
 import { GetStarted } from "../components/GetStarted";
+import { PhotoStrip } from "../components/PhotoStrip";
 
 const videoConstraints = {
   width: 1280,
@@ -111,6 +110,7 @@ const PhotoBooth: React.FC = () => {
               />
             ) : (
               <PhotoStripConfigurator
+                stripRef={stripRef}
                 photoStripBgColor={photoStripBgColor}
                 setPhotoStripBgColor={setPhotoStripBgColor}
                 filter={filter}
@@ -139,49 +139,16 @@ const PhotoBooth: React.FC = () => {
               />
             ) : (
               /* THE PHOTO STRIP */
-              <div
-                ref={stripRef}
-                className="custom-photobooth-strip scale-80"
-                style={{
-                  backgroundColor: photoStripBgColor,
-                }}
-              >
-                {capturedImages.map((imgSrc, index) => (
-                  <PixelsImage
-                    key={index}
-                    src={imgSrc}
-                    style={{
-                      filter:
-                        filter === "greyscale" ? "contrast(130%)" : "none",
-                    }}
-                    filter={filter}
-                    className="w-[250px] mb-2"
-                  />
-                ))}
-                <img
-                  src={TypeMixersLogo}
-                  alt="logo"
-                  className="w-24 pt-4 pb-2"
-                />
-                <div className="flex flex-col items-center px-4 pb-4 w-[250px]">
-                  <span
-                    className={`text-sm italic text-center leading-tight break-words w-full ${
-                      textColor === "white" ? "text-white" : "text-black"
-                    }`}
-                  >
-                    {customText}
-                  </span>
-                  {showDate && (
-                    <span
-                      className={`text-xs italic mt-2 ${
-                        textColor === "white" ? "text-white" : "text-black"
-                      }`}
-                    >
-                      {todayDate}
-                    </span>
-                  )}
-                </div>
-              </div>
+              <PhotoStrip
+                stripRef={stripRef}
+                capturedImages={capturedImages}
+                photoStripBgColor={photoStripBgColor}
+                filter={filter}
+                customText={customText}
+                textColor={textColor}
+                showDate={showDate}
+                todayDate={todayDate}
+              />
             )}
           </div>
         </div>

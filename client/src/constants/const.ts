@@ -1,5 +1,5 @@
 export const filters = {
-  none: "none",
+  none: "",
   greyscale: "greyscale",
 };
 
