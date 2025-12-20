@@ -9,7 +9,9 @@ export const AddMessageInput: React.FC<Props> = ({
 }) => {
   return (
     <div className="flex flex-col gap-1 w-full">
-      <label className="text-sm">Add Message:</label>
+      <label className="text-[0.6em] font-bold uppercase opacity-60">
+        Add Message:
+      </label>
       <input
         type="text"
         value={customText}
