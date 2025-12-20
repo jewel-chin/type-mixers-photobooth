@@ -1,10 +1,9 @@
 import React from "react";
-import html2canvas from "html2canvas";
 import QRCode from "qrcode";
 import beepSound from "../assets/beep.wav";
 import shutterSound from "../assets/shutter.wav";
 import { MAX_CAPTURES, COUNT_STARTER, WORKER_URL } from "../constants/const";
-
+import { toPng, toCanvas } from "html-to-image";
 type Props = {
   stripRef: React.RefObject<HTMLDivElement | null>;
   setQrCode: React.Dispatch<React.SetStateAction<string | null>>;
@@ -17,11 +16,7 @@ export const generateQrForStrip = async ({ stripRef, setQrCode }: Props) => {
   // 1. Convert div to image
   if (!stripRef.current) return;
 
-  const canvas = await html2canvas(stripRef.current, {
-    backgroundColor: "transparent",
-    scale: 4,
-  });
-
+  const canvas = await toCanvas(stripRef.current);
   const blob = await new Promise<Blob | null>((resolve) => {
     canvas.toBlob((b) => resolve(b), "image/png");
   });
@@ -65,15 +60,15 @@ export const handleDownload = async (
 ) => {
   if (!stripRef.current) return;
 
-  const canvas = await html2canvas(stripRef.current, {
-    backgroundColor: "transparent",
-    scale: 4,
-  });
-  const image = canvas.toDataURL("image/png");
-  const link = document.createElement("a");
-  link.href = image;
-  link.download = "photobooth-strip.png";
-  link.click();
+  try {
+    const dataUrl = await toPng(stripRef.current);
+    const link = document.createElement("a");
+    link.download = "photo_strip_type_mixers.png";
+    link.href = dataUrl;
+    link.click();
+  } catch (err) {
+    console.error("Download failed", err);
+  }
 };
 
 export const handleShare = async (
@@ -81,11 +76,7 @@ export const handleShare = async (
 ) => {
   if (!stripRef.current) return;
 
-  const canvas = await html2canvas(stripRef.current, {
-    backgroundColor: "transparent",
-    scale: 4,
-  });
-
+  const canvas = await toCanvas(stripRef.current);
   const blob = await new Promise<Blob | null>((resolve) => {
     canvas.toBlob((b) => resolve(b), "image/png");
   });
