@@ -44,7 +44,7 @@ export const PhotoStrip = ({
       <img src={TypeMixersLogo} alt="logo" className="w-24 pt-4 pb-2" />
       <div className="flex flex-col items-center px-4 pb-4 w-[250px]">
         <span
-          className={`text-sm italic text-center leading-tight break-words w-full ${
+          className={`photo-strip-text text-sm w-full ${
             textColor === "white" ? "text-white" : "text-black"
           }`}
         >
@@ -52,7 +52,7 @@ export const PhotoStrip = ({
         </span>
         {showDate && (
           <span
-            className={`text-xs italic mt-2 ${
+            className={`photo-strip-text text-xs mt-2 ${
               textColor === "white" ? "text-white" : "text-black"
             }`}
           >

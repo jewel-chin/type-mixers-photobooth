@@ -46,3 +46,7 @@ body {
 .download-button {
   @apply rounded-lg border border-gray-200 p-1 cursor-pointer hover:bg-gray-200 transition-colors duration-300;
 }
+
+.photo-strip-text {
+  @apply italic text-center leading-tight tracking-normal break-words;
+}
