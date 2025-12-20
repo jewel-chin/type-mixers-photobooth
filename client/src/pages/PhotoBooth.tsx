@@ -35,6 +35,7 @@ const PhotoBooth: React.FC = () => {
   const [customText, setCustomText] = useState("");
   const [textColor, setTextColor] = useState<"black" | "white">("white");
   const [showDate, setShowDate] = useState(true);
+  const [fontFamily, setFontFamily] = useState("'Inter', sans-serif");
 
   const isInitialScreen = !isStarted && capturedImages.length === 0;
   const isCapturing = isStarted && capturedImages.length < MAX_CAPTURES;
@@ -124,6 +125,8 @@ const PhotoBooth: React.FC = () => {
                 generateQrCode={generateQrCode}
                 isGeneratingQr={isGeneratingQr}
                 qrCode={qrCode}
+                fontFamily={fontFamily}
+                setFontFamily={setFontFamily}
               />
             )}
           </div>
@@ -148,6 +151,7 @@ const PhotoBooth: React.FC = () => {
                 textColor={textColor}
                 showDate={showDate}
                 todayDate={todayDate}
+                fontFamily={fontFamily}
               />
             )}
           </div>

@@ -3,6 +3,7 @@ import { filters, PRESET_COLORS } from "../constants/const";
 import downloadIcon from "../assets/download.png";
 import shareIcon from "../assets/share.png";
 import { handleShare, handleDownload } from "../helpers/helpers";
+import { FontSelector } from "./FontSelector";
 
 type Props = {
   stripRef: React.RefObject<HTMLDivElement | null>;
@@ -19,6 +20,8 @@ type Props = {
   generateQrCode: () => void;
   qrCode: string | null;
   isGeneratingQr: boolean;
+  fontFamily: string;
+  setFontFamily: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const PhotoStripConfigurator = ({
@@ -36,6 +39,8 @@ export const PhotoStripConfigurator = ({
   generateQrCode,
   qrCode,
   isGeneratingQr,
+  fontFamily,
+  setFontFamily,
 }: Props) => {
   return (
     <div className="flex flex-col items-center gap-4">
@@ -71,13 +76,20 @@ export const PhotoStripConfigurator = ({
 
           {/* CUSTOM TEXT SECTION */}
           <div className="flex flex-col gap-2 p-3 bg-[#7c6f64]/50 rounded-md">
-            <label className="text-sm">Add Message:</label>
+            <label className="text-[0.6em] font-bold uppercase opacity-60">
+              Add Message:
+            </label>
+
             <input
               type="text"
               value={customText}
               onChange={(e) => setCustomText(e.target.value)}
               placeholder="Type here..."
-              className="text-[0.7em] bg-cream text-dark-brown p-1 text-sm rounded border border-gray-600"
+              className="text-[0.6em] bg-cream text-dark-brown p-1 text-sm tracking-normal rounded border border-gray-600"
+            />
+            <FontSelector
+              selectedFont={fontFamily}
+              setSelectedFont={setFontFamily}
             />
             <div className="flex gap-2 mt-1">
               <button

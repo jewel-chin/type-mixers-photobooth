@@ -10,6 +10,7 @@ type Props = {
   customText: string;
   showDate: boolean;
   todayDate: string;
+  fontFamily: string;
 };
 
 export const PhotoStrip = ({
@@ -21,6 +22,7 @@ export const PhotoStrip = ({
   customText,
   showDate,
   todayDate,
+  fontFamily,
 }: Props) => {
   return (
     <div
@@ -44,6 +46,7 @@ export const PhotoStrip = ({
       <img src={TypeMixersLogo} alt="logo" className="w-24 pt-4 pb-2" />
       <div className="flex flex-col items-center px-4 pb-4 w-[250px]">
         <span
+          style={{ fontFamily: fontFamily }}
           className={`photo-strip-text text-sm w-full ${
             textColor === "white" ? "text-white" : "text-black"
           }`}
