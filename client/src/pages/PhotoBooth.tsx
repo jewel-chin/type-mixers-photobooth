@@ -4,7 +4,7 @@ import TypeMixersLogo from "../assets/type_logo.png";
 import countDown_3 from "../assets/countdown_3.png";
 import countDown_2 from "../assets/countdown_2.png";
 import countDown_1 from "../assets/countdown_1.png";
-import { generateQrForStrip, startCaptureSequence } from "../helpers/helpers";
+import { generateQrForStrip } from "../helpers/helpers";
 import { PixelsImage } from "react-pixels";
 import { PhotoStripConfigurator } from "../components/PhotoStripConfigurator";
 import { filters, COUNT_STARTER, MAX_CAPTURES } from "../constants/const";
