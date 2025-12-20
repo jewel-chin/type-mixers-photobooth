@@ -139,7 +139,7 @@ export const PhotoStripConfigurator = ({
             {!isGeneratingQr && qrCode && (
               <div className="flex flex-col items-start">
                 <button className="text-xs italic text-red-900 text-start">
-                  Scan to get your photo strip! Expires in 2 minutes. <br />{" "}
+                  Scan to get your photo strip! Expires in 24 hours. <br />{" "}
                   Remember to save :)
                 </button>
                 <img
