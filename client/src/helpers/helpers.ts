@@ -3,8 +3,7 @@ import html2canvas from "html2canvas";
 import QRCode from "qrcode";
 import beepSound from "../assets/beep.wav";
 import shutterSound from "../assets/shutter.wav";
-
-const WORKER_URL = "https://photobooth.type-mixers.workers.dev";
+import { MAX_CAPTURES, COUNT_STARTER, WORKER_URL } from "../constants/const";
 
 type Props = {
   stripRef: React.RefObject<HTMLDivElement | null>;
@@ -70,6 +69,44 @@ export const generateQrForStrip = async ({ stripRef, setQrCode }: Props) => {
 // link.download = "photobooth-strip.png";
 // link.click();
 
+type startCaptureSequenceProps = {
+  setIsStarted: React.Dispatch<React.SetStateAction<boolean>>;
+  webcamRef: React.RefObject<any>;
+  setCapturedImages: React.Dispatch<React.SetStateAction<string[]>>;
+  setCurrentCount: React.Dispatch<React.SetStateAction<number>>;
+};
+
+export const startCaptureSequence = ({
+  setIsStarted,
+  webcamRef,
+  setCapturedImages,
+  setCurrentCount,
+}: startCaptureSequenceProps) => {
+  setIsStarted(true);
+  const runSequence = async () => {
+    const takePhoto = () => {
+      if (webcamRef.current) {
+        const src = webcamRef.current.getScreenshot();
+        setCapturedImages((prev) => [...prev, src!]);
+      }
+    };
+
+    for (let i = 0; i < MAX_CAPTURES; i++) {
+      let count = COUNT_STARTER;
+      while (count >= 0) {
+        setCurrentCount(count);
+        if (count > 0) playBeep();
+        await new Promise((res) => setTimeout(res, 1000));
+        count -= 1;
+      }
+      playShutter();
+      takePhoto();
+      await new Promise((res) => setTimeout(res, 500));
+    }
+    setIsStarted(false); // Move to finished state
+  };
+  runSequence();
+};
 export const playBeep = () => {
   beepAudio.currentTime = 0;
   beepAudio.play();
