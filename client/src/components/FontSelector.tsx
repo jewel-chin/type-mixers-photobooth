@@ -18,7 +18,7 @@ export const FontSelector: React.FC<Props> = ({
   setSelectedFont,
 }) => {
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col gap-1 w-full">
       <label className="text-[0.6em] font-bold uppercase opacity-60">
         Typography
       </label>

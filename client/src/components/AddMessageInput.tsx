@@ -8,11 +8,8 @@ export const AddMessageInput: React.FC<Props> = ({
   setCustomText,
 }) => {
   return (
-    <>
-      <label className="text-[0.6em] font-bold uppercase opacity-60">
-        Add Message:
-      </label>
-
+    <div className="flex flex-col gap-1 w-full">
+      <label className="text-sm">Add Message:</label>
       <input
         type="text"
         value={customText}
@@ -20,6 +17,6 @@ export const AddMessageInput: React.FC<Props> = ({
         placeholder="Type here..."
         className="text-[0.6em] bg-cream text-dark-brown p-1 text-sm tracking-normal rounded border border-gray-600"
       />
-    </>
+    </div>
   );
 };
