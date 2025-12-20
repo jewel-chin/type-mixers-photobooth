@@ -55,6 +55,7 @@ export const PhotoStrip = ({
         </span>
         {showDate && (
           <span
+            style={{ fontFamily: fontFamily }}
             className={`photo-strip-text text-xs mt-2 ${
               textColor === "white" ? "text-white" : "text-black"
             }`}

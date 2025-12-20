@@ -1,25 +1,17 @@
 import React, { useRef, useState } from "react";
 import Webcam from "react-webcam";
-import countDown_3 from "../assets/countdown_3.png";
-import countDown_2 from "../assets/countdown_2.png";
-import countDown_1 from "../assets/countdown_1.png";
 import { generateQrForStrip } from "../helpers/helpers";
 import { PhotoStripConfigurator } from "../components/PhotoStripConfigurator";
-import { filters, COUNT_STARTER, MAX_CAPTURES } from "../constants/const";
+import {
+  filters,
+  COUNT_STARTER,
+  MAX_CAPTURES,
+  COUNTDOWN_IMAGE_URLS,
+  VIDEO_CONSTRAINTS,
+} from "../constants/const";
 import { GetStarted } from "../components/GetStarted";
 import { PhotoStrip } from "../components/PhotoStrip";
-
-const videoConstraints = {
-  width: 1280,
-  height: 720,
-  facingMode: "user",
-};
-
-const countdownImages: { [key: number]: string } = {
-  3: countDown_3,
-  2: countDown_2,
-  1: countDown_1,
-};
+import { CameraFlash } from "../components/CameraFlash";
 
 const PhotoBooth: React.FC = () => {
   const stripRef = useRef(null);
@@ -75,7 +67,7 @@ const PhotoBooth: React.FC = () => {
             ref={webcamRef}
             mirrored
             screenshotFormat="image/jpeg"
-            videoConstraints={videoConstraints}
+            videoConstraints={VIDEO_CONSTRAINTS}
             className="w-full h-auto max-w-full"
             style={{
               filter: filter === "greyscale" ? "contrast(130%)" : "none",
@@ -86,12 +78,17 @@ const PhotoBooth: React.FC = () => {
           {currentCount > 0 && (
             <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-50">
               <img
-                src={countdownImages[currentCount]}
+                src={COUNTDOWN_IMAGE_URLS[currentCount]}
                 alt={`Countdown ${currentCount}`}
                 className="scale-25 animate-bounce"
               />
             </div>
           )}
+          {
+            <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-50">
+              <CameraFlash isFlashing={currentCount == 0} />
+            </div>
+          }
         </div>
       )}
 
@@ -106,7 +103,7 @@ const PhotoBooth: React.FC = () => {
                 ref={webcamRef}
                 mirrored
                 screenshotFormat="image/jpeg"
-                videoConstraints={videoConstraints}
+                videoConstraints={VIDEO_CONSTRAINTS}
                 className="w-full h-auto max-w-full"
               />
             ) : (
