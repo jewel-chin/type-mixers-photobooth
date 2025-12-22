@@ -16,16 +16,23 @@ export const generateQrForStrip = async ({ stripRef, setQrCode }: Props) => {
   // 1. Convert div to image
   if (!stripRef.current) return;
 
+  // workaround: github.com/bubkoo/html-to-image/issues/361
+
+  await toCanvas(stripRef.current);
+  await toCanvas(stripRef.current);
+  await toCanvas(stripRef.current);
+
   const canvas = await toCanvas(stripRef.current);
   const blob = await new Promise<Blob | null>((resolve) => {
     canvas.toBlob((b) => resolve(b), "image/png");
   });
 
   if (!blob) {
-    console.error("Failed to generate blob");
     return;
   }
-  // 2. Upload to Cloudflare Worker
+
+  // upload to cloudflare worker
+
   try {
     const uploadRes = await fetch(`${WORKER_URL}/upload`, {
       method: "POST",
@@ -61,6 +68,12 @@ export const handleDownload = async (
   if (!stripRef.current) return;
 
   try {
+    // workaround: github.com/bubkoo/html-to-image/issues/361
+
+    await toPng(stripRef.current);
+    await toPng(stripRef.current);
+    await toPng(stripRef.current);
+
     const dataUrl = await toPng(stripRef.current);
     const link = document.createElement("a");
     link.download = "photo_strip_type_mixers.png";
@@ -75,6 +88,12 @@ export const handleShare = async (
   stripRef: React.RefObject<HTMLDivElement | null>
 ) => {
   if (!stripRef.current) return;
+
+  // workaround: github.com/bubkoo/html-to-image/issues/361
+
+  await toCanvas(stripRef.current);
+  await toCanvas(stripRef.current);
+  await toCanvas(stripRef.current);
 
   const canvas = await toCanvas(stripRef.current);
   const blob = await new Promise<Blob | null>((resolve) => {
@@ -120,11 +139,15 @@ export const startCaptureSequence = ({
       let count = COUNT_STARTER;
       while (count >= 0) {
         setCurrentCount(count);
-        if (count > 0) playBeep();
-        await new Promise((res) => setTimeout(res, 1000));
+        if (count > 0) {
+          playBeep();
+          await new Promise((res) => setTimeout(res, 1000));
+        } else if (count === 0) {
+          playShutter();
+          await new Promise((res) => setTimeout(res, 500));
+        }
         count -= 1;
       }
-      playShutter();
       takePhoto();
       await new Promise((res) => setTimeout(res, 500));
     }
