@@ -7,7 +7,7 @@ export const filters = {
   greyscale: "greyscale",
 };
 
-export const WORKER_URL = "https://photobooth.type-mixers.workers.dev";
+export const WORKER_URL = "https://photobooth.by-jewel.workers.dev";
 export const VIDEO_CONSTRAINTS = {
   width: 1280,
   height: 720,
