@@ -12,6 +12,7 @@ import {
 import { GetStarted } from "../components/GetStarted";
 import { PhotoStrip } from "../components/PhotoStrip";
 import { CameraFlash } from "../components/CameraFlash";
+import { useDeviceDetect } from "../hooks/useDeviceDetect";
 
 const PhotoBooth: React.FC = () => {
   const stripRef = useRef(null);
@@ -57,6 +58,8 @@ const PhotoBooth: React.FC = () => {
     day: "numeric",
   });
 
+  const isTouchDevice = useDeviceDetect();
+
   return (
     <div className="min-h-screen w-full p-4 flex flex-col items-center justify-center bg-background">
       {/* 1. CAPTURING STATE (Webcam only, full screen) */}
@@ -68,10 +71,10 @@ const PhotoBooth: React.FC = () => {
             mirrored
             screenshotFormat="image/jpeg"
             videoConstraints={VIDEO_CONSTRAINTS}
-            className="w-full h-auto max-w-full 
-               sm:max-w-[50%] md:max-w-[50%]"
+            className="w-full h-auto max-w-full"
             style={{
               filter: filter === "greyscale" ? "contrast(130%)" : "none",
+              scale: isTouchDevice ? "0.5" : "1.0",
             }}
           />
 
