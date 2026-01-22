@@ -99,7 +99,7 @@ const PhotoBooth: React.FC = () => {
       {/* 2. INITIAL OR FINISHED STATE (Split Screen) */}
       {!isCapturing && (
         <div
-          className={`flex flex-col lg:flex-row w-full max-w-6xl items-center justify-center ${isTouchDevice ? "gap-1" : "gap-12"}`}
+          className={`flex flex-col lg:flex-row w-full max-w-6xl items-center justify-center ${isTouchDevice ? "gap-6" : "gap-12"}`}
         >
           {/* LEFT COLUMN */}
           <div className="w-full lg:w-1/2 flex justify-center">

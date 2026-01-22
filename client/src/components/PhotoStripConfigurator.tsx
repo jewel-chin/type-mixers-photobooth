@@ -5,6 +5,7 @@ import shareIcon from "../assets/share.png";
 import { handleShare, handleDownload } from "../helpers/helpers";
 import { FontSelector } from "./FontSelector";
 import { AddMessageInput } from "./AddMessageInput";
+import { useDeviceDetect } from "../hooks/useDeviceDetect";
 
 type Props = {
   stripRef: React.RefObject<HTMLDivElement | null>;
@@ -43,6 +44,7 @@ export const PhotoStripConfigurator = ({
   fontFamily,
   setFontFamily,
 }: Props) => {
+  const isTouchDevice = useDeviceDetect();
   return (
     <div className="flex flex-col items-center gap-4">
       <span>Customize Your Photo Strip:</span>
@@ -131,8 +133,12 @@ export const PhotoStripConfigurator = ({
           </div>
 
           {qrCode && !isGeneratingQr && (
-            <div className="flex flex-col items-start mt-2">
-              <button className="text-xs italic text-red-900 text-start">
+            <div
+              className={`flex flex-col ${isTouchDevice ? "items-center" : "items-start"} mt-2`}
+            >
+              <button
+                className={`text-xs italic text-red-900 ${isTouchDevice ? "text-center" : "text-start"}`}
+              >
                 Scan to get your photo strip! Expires in 24 hours. <br />{" "}
                 Remember to save :)
               </button>
