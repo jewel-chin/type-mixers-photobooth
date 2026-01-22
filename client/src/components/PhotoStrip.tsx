@@ -40,6 +40,9 @@ export const PhotoStrip = ({
             ? "custom-photobooth-strip-mobile"
             : "custom-photobooth-strip-desktop"
         }
+        style={{
+          backgroundColor: photoStripBgColor,
+        }}
       >
         {capturedImages.map((imgSrc, index) => (
           <PixelsImage
@@ -49,7 +52,7 @@ export const PhotoStrip = ({
               filter: filter === "greyscale" ? "contrast(130%)" : "none",
             }}
             filter={filter}
-            className={`w-[250px] ${isTouchDevice ? "mb-0" : "mb-2"}`}
+            className={`w-full ${isTouchDevice ? "max-w-[120px] mb-0" : "max-w-[250px] mb-2"}`}
           />
         ))}
       </div>
