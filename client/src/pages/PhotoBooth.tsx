@@ -69,7 +69,7 @@ const PhotoBooth: React.FC = () => {
             screenshotFormat="image/jpeg"
             videoConstraints={VIDEO_CONSTRAINTS}
             className="w-full h-auto max-w-full 
-               sm:max-w-md md:max-w-lg"
+               sm:max-w-[50%] md:max-w-[50%]"
             style={{
               filter: filter === "greyscale" ? "contrast(130%)" : "none",
             }}
