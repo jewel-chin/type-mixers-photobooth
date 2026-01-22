@@ -18,19 +18,32 @@
 body {
   background: var(--cream);
   color: var(--dark-brown);
-  font-family: "Helvetica Neue", "HelveticaNeue-Light", "Helvetica Neue Light",
-    Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-family:
+    "Helvetica Neue", "HelveticaNeue-Light", "Helvetica Neue Light", Helvetica,
+    Arial, "Lucida Grande", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   letter-spacing: -0.08em;
   font-weight: 500;
 }
 
-.custom-photobooth-strip {
-  @apply flex flex-col items-center p-4 pb-2;
+.custom-photobooth-strip-container {
+  @apply flex flex-col items-center;
   background: var(--dark-brown);
 }
 
+.custom-photobooth-strip-desktop {
+  @apply flex flex-col items-center p-2;
+  background: var(--dark-brown);
+}
+
+.custom-photobooth-strip-mobile {
+  @apply grid grid-cols-2 items-center p-2 gap-2;
+  background: var(--dark-brown);
+}
+.custom-photobooth-strip-bottom-bar {
+  @apply flex flex-col items-center pb-4;
+}
 .base-button {
   @apply text-sm bg-dark-brown text-cream py-1 px-4 rounded hover:bg-red-900 transition-colors duration-300;
 }

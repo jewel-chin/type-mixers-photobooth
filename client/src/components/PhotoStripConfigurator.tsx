@@ -46,18 +46,16 @@ export const PhotoStripConfigurator = ({
   return (
     <div className="flex flex-col items-center gap-4">
       <span>Customize Your Photo Strip:</span>
-      <div className="flex lg:flex-row items-start gap-4 flex-col">
-        <div className="flex flex-row gap-2">
-          <Sketch
-            color={photoStripBgColor}
-            presetColors={PRESET_COLORS}
-            width={200}
-            disableAlpha={true}
-            onChange={(color) => {
-              setPhotoStripBgColor(color.hex);
-            }}
-          />
-        </div>
+      <div className="flex flex-row items-start gap-4">
+        <Sketch
+          color={photoStripBgColor}
+          presetColors={PRESET_COLORS}
+          width={200}
+          disableAlpha={true}
+          onChange={(color) => {
+            setPhotoStripBgColor(color.hex);
+          }}
+        />
         <div className="flex flex-col gap-4">
           <div className="flex flex-row gap-2">
             <label className="text-sm mr-2 self-center">Filters:</label>
