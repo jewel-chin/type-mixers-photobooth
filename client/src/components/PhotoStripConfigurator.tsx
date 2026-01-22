@@ -46,35 +46,34 @@ export const PhotoStripConfigurator = ({
   return (
     <div className="flex flex-col items-center gap-4">
       <span>Customize Your Photo Strip:</span>
-      <div className="flex flex-row items-start gap-4">
+
+      <div className="flex flex-col sm:flex-row items-start gap-4 w-full max-w-[100%]">
         <Sketch
           color={photoStripBgColor}
           presetColors={PRESET_COLORS}
           width={200}
           disableAlpha={true}
-          onChange={(color) => {
-            setPhotoStripBgColor(color.hex);
-          }}
+          onChange={(color) => setPhotoStripBgColor(color.hex)}
+          className="flex-shrink-0"
         />
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-row gap-2">
+
+        <div className="flex flex-col gap-4 flex-1 min-w-0">
+          {/* Filters */}
+          <div className="flex flex-row gap-2 flex-wrap">
             <label className="text-sm mr-2 self-center">Filters:</label>
             {Object.keys(filters).map((key) => (
               <button
                 key={key}
                 onClick={() => setFilter(key as keyof typeof filters)}
-                className={`
-                          ${
-                            filter === key ? "base-button" : "unselected-button"
-                          }`}
+                className={filter === key ? "base-button" : "unselected-button"}
               >
                 {key}
               </button>
             ))}
           </div>
 
-          {/* CUSTOM TEXT SECTION */}
-          <div className="flex flex-col gap-2 p-3 bg-[#7c6f64]/50 rounded-md">
+          {/* Custom text section */}
+          <div className="flex flex-col gap-2 p-3 bg-[#7c6f64]/50 rounded-md min-w-0">
             <AddMessageInput
               customText={customText}
               setCustomText={setCustomText}
@@ -83,20 +82,16 @@ export const PhotoStripConfigurator = ({
               selectedFont={fontFamily}
               setSelectedFont={setFontFamily}
             />
-            <div className="flex gap-2 mt-1">
+            <div className="flex gap-2 mt-1 flex-wrap">
               <button
                 onClick={() => setTextColor("white")}
-                className={`text-sm ${
-                  textColor === "white" ? "base-button" : "unselected-button"
-                }`}
+                className={`text-sm ${textColor === "white" ? "base-button" : "unselected-button"}`}
               >
                 White Text
               </button>
               <button
                 onClick={() => setTextColor("black")}
-                className={`text-sm ${
-                  textColor === "black" ? "base-button" : "unselected-button"
-                }`}
+                className={`text-sm ${textColor === "black" ? "base-button" : "unselected-button"}`}
               >
                 Black Text
               </button>
@@ -109,7 +104,8 @@ export const PhotoStripConfigurator = ({
             </button>
           </div>
 
-          <div className="flex flex-row items-center gap-2">
+          {/* Buttons and QR */}
+          <div className="flex flex-row items-center gap-2 flex-wrap">
             <button
               onClick={() => handleDownload(stripRef)}
               className="download-button"
@@ -133,21 +129,20 @@ export const PhotoStripConfigurator = ({
               <div className="w-5 h-5 border-2 border-t-transparent border-dark-brown rounded-full animate-spin" />
             )}
           </div>
-          <div className="flex flex-row items-center gap-4">
-            {!isGeneratingQr && qrCode && (
-              <div className="flex flex-col items-start">
-                <button className="text-xs italic text-red-900 text-start">
-                  Scan to get your photo strip! Expires in 24 hours. <br />{" "}
-                  Remember to save :)
-                </button>
-                <img
-                  src={qrCode || ""}
-                  alt="QR Code for Photo Booth Strip"
-                  className="w-30"
-                />
-              </div>
-            )}
-          </div>
+
+          {qrCode && !isGeneratingQr && (
+            <div className="flex flex-col items-start mt-2">
+              <button className="text-xs italic text-red-900 text-start">
+                Scan to get your photo strip! Expires in 24 hours. <br />{" "}
+                Remember to save :)
+              </button>
+              <img
+                src={qrCode}
+                alt="QR Code for Photo Booth Strip"
+                className="w-30"
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
