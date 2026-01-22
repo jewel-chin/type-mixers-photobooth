@@ -68,7 +68,8 @@ const PhotoBooth: React.FC = () => {
             mirrored
             screenshotFormat="image/jpeg"
             videoConstraints={VIDEO_CONSTRAINTS}
-            className="w-full h-auto max-w-full"
+            className="w-full h-auto max-w-full 
+               sm:max-w-md md:max-w-lg"
             style={{
               filter: filter === "greyscale" ? "contrast(130%)" : "none",
             }}
