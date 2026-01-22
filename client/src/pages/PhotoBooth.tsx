@@ -71,10 +71,10 @@ const PhotoBooth: React.FC = () => {
             mirrored
             screenshotFormat="image/jpeg"
             videoConstraints={VIDEO_CONSTRAINTS}
-            className="w-full h-auto max-w-full"
             style={{
               filter: filter === "greyscale" ? "contrast(130%)" : "none",
-              scale: isTouchDevice ? "0.5" : "1.0",
+              height: isTouchDevice ? window.innerHeight * 0.5 : "auto",
+              width: isTouchDevice ? window.innerWidth * 0.5 : "100%",
             }}
           />
 
